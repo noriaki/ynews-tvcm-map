@@ -1,3 +1,7 @@
 h1 {
   font-family: 'Noto Sans Japanese', serif;
 }
+
+.video {
+  display: none;
+}

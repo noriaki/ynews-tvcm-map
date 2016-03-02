@@ -112,19 +112,21 @@ class YNewsCM {
   select_handler(data) {
     const index = data.area.code === 3 ? 0 : data.code;
     const video = this.videos[index];
+    const container = jQuery('.video');
     const player = jQuery('#player');
     jQuery('#title').text(video.title);
     player.tubeplayer("destroy");
     player.tubeplayer({
       initialVideo: video.id,
-      width: 560,
-      height: 315,
+      width: container.parent().width(),
+      height: container.parent().width() * 9 / 16,
       color: "white",
       theme: "light",
       autoPlay: true,
       protocol: window.location.protocol == "https:" ? "https" : "http",
       modestbranding: false
     });
+    container.slideDown();
   }
 }
 
