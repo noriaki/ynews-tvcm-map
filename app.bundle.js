@@ -73,6 +73,7 @@ var YNewsCM = function () {
         fontSize: 12,
         fontColor: "areaColor",
         fontShadowColor: "black",
+        protocol: window.location.protocol == "https:" ? "https" : "http",
         onSelect: this.select_handler.bind(this)
       };
     }
