@@ -1,5 +1,9 @@
-h1 {
+h1, p {
   font-family: 'Noto Sans Japanese', serif;
+}
+
+h1 {
+  font-size: 28px;
 }
 
 #video {
