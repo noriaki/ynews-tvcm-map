@@ -29,6 +29,25 @@ var YNewsCM = function () {
     get: function get() {
       return this.constructor.VIDEOS;
     }
+  }, {
+    key: 'map_options',
+    get: function get() {
+      return {
+        areas: this.areas,
+        selection: "prefecture",
+        borderLineWidth: 0.25,
+        drawsBoxLine: false,
+        movesIslands: true,
+        showsPrefectureName: true,
+        prefectureNameType: "short",
+        width: 800,
+        font: "Noto Sans Japanese",
+        fontSize: 12,
+        fontColor: "areaColor",
+        fontShadowColor: "black",
+        onSelect: this.select_handler.bind(this)
+      };
+    }
 
     /* initialize */
 
@@ -51,7 +70,12 @@ var YNewsCM = function () {
   }]);
 
   function YNewsCM() {
+    var selector = arguments.length <= 0 || arguments[0] === undefined ? '#map' : arguments[0];
+
     _classCallCheck(this, YNewsCM);
+
+    this.selector = selector;
+    this.map = (0, _jquery2.default)(selector);
   }
 
   /* prototype methods */
@@ -60,49 +84,50 @@ var YNewsCM = function () {
   _createClass(YNewsCM, [{
     key: 'init',
     value: function init() {
-      return {
-        areas: this.areas,
-        selection: "prefecture",
-        borderLineWidth: 0.25,
-        drawsBoxLine: false,
-        movesIslands: true,
-        showsPrefectureName: true,
-        prefectureNameType: "short",
-        width: 800,
-        font: "Noto Sans Japanese",
-        fontSize: 12,
-        fontColor: "areaColor",
-        fontShadowColor: "black",
-        onSelect: this.select_handler.bind(this)
-      };
+      var _this = this;
+
+      this.render();
+      (0, _jquery2.default)(window).on('resize', function () {
+        _this.render();
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      this.map.empty();
+      this.map.japanMap(_jquery2.default.extend({}, this.map_options, {
+        width: this.map.width()
+      }));
     }
   }, {
     key: 'select_handler',
     value: function select_handler(data) {
       var index = data.area.code === 3 ? 0 : data.code;
       var video = this.videos[index];
+      var container = (0, _jquery2.default)('.video');
       var player = (0, _jquery2.default)('#player');
       (0, _jquery2.default)('#title').text(video.title);
       player.tubeplayer("destroy");
       player.tubeplayer({
         initialVideo: video.id,
-        width: 560,
-        height: 315,
+        width: container.parent().width(),
+        height: container.parent().width() * 9 / 16,
         color: "white",
         theme: "light",
         autoPlay: true,
         protocol: window.location.protocol == "https:" ? "https" : "http",
         modestbranding: false
       });
+      container.slideDown();
     }
   }]);
 
   return YNewsCM;
 }();
 
-(0, _jquery2.default)(function ($) {
-  var ynewscm = new YNewsCM();
-  $('#map').japanMap(ynewscm.init());
+(0, _jquery2.default)(function () {
+  var ynewscm = new YNewsCM('#map');
+  ynewscm.init();
 });
 
 },{"jquery":3,"jquery.japan-map":4,"jquery.tubeplayer":2}],2:[function(require,module,exports){
