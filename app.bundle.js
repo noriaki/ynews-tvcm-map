@@ -90,6 +90,10 @@ var YNewsCM = function () {
       (0, _jquery2.default)(window).on('resize', function () {
         _this.render();
       });
+      (0, _jquery2.default)('#video .close').on('click', function () {
+        (0, _jquery2.default)('#video').slideUp();
+        (0, _jquery2.default)('#player').tubeplayer("destroy");
+      });
     }
   }, {
     key: 'render',
@@ -104,14 +108,15 @@ var YNewsCM = function () {
     value: function select_handler(data) {
       var index = data.area.code === 3 ? 0 : data.code;
       var video = this.videos[index];
-      var container = (0, _jquery2.default)('.video');
+      var container = (0, _jquery2.default)('#video');
       var player = (0, _jquery2.default)('#player');
       (0, _jquery2.default)('#title').text(video.title);
       player.tubeplayer("destroy");
+      var container_width = container.parent().width() - 32;
       player.tubeplayer({
         initialVideo: video.id,
-        width: container.parent().width(),
-        height: container.parent().width() * 9 / 16,
+        width: container_width,
+        height: container_width * 9 / 16,
         color: "white",
         theme: "light",
         autoPlay: true,
