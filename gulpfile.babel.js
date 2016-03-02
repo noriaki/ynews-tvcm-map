@@ -3,6 +3,7 @@ import browserify from 'browserify';
 import source     from 'vinyl-source-stream';
 import webserver  from 'gulp-webserver';
 import eslint     from 'gulp-eslint';
+import gh_pages   from 'gulp-gh-pages';
 
 gulp.task('lint', () => {
   return gulp.src('./src/app.jsx')
@@ -31,12 +32,17 @@ gulp.task('copy', () => {
     .pipe(gulp.dest('./build/'));
 });
 
-gulp.task('webserver', function() {
+gulp.task('webserver', () => {
   return gulp.src('./build')
     .pipe(webserver({
       host: '127.0.0.1',
       livereload: true
     }));
+});
+
+gulp.task('deploy', () => {
+  return gulp.src('./build/**/*')
+    .pipe(gh_pages());
 });
 
 gulp.task('default', ['copy', 'lint', 'build', 'watch', 'webserver']);
