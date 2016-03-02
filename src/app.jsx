@@ -70,11 +70,7 @@ class YNewsCM {
   get areas() { return this.constructor.AREAS; }
   get videos() { return this.constructor.VIDEOS; }
 
-  /* initialize */
-  constructor() {}
-
-  /* prototype methods */
-  init() {
+  get map_options() {
     return {
       areas: this.areas,
       selection: "prefecture",
@@ -90,6 +86,27 @@ class YNewsCM {
       fontShadowColor: "black",
       onSelect: this.select_handler.bind(this)
     };
+  }
+
+  /* initialize */
+  constructor(selector='#map') {
+    this.selector = selector;
+    this.map = jQuery(selector);
+  }
+
+  /* prototype methods */
+  init() {
+    this.render();
+    jQuery(window).on('resize', () => { this.render(); });
+  }
+
+  render() {
+    this.map.empty();
+    this.map.japanMap(
+      jQuery.extend({}, this.map_options, {
+        width: this.map.width()
+      })
+    );
   }
 
   select_handler(data) {
@@ -112,7 +129,7 @@ class YNewsCM {
 }
 
 
-jQuery(function($) {
-  const ynewscm = new YNewsCM();
-  $('#map').japanMap(ynewscm.init());
+jQuery(function() {
+  const ynewscm = new YNewsCM('#map');
+  ynewscm.init();
 });
