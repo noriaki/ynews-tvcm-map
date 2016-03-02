@@ -105,6 +105,7 @@ class YNewsCM {
       color: "white",
       theme: "light",
       autoPlay: true,
+      protocol: window.location.protocol == "https:" ? "https" : "http",
       modestbranding: false
     });
   }
