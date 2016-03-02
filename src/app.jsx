@@ -98,6 +98,10 @@ class YNewsCM {
   init() {
     this.render();
     jQuery(window).on('resize', () => { this.render(); });
+    jQuery('#video .close').on('click', () => {
+      jQuery('#video').slideUp();
+      jQuery('#player').tubeplayer("destroy");
+    });
   }
 
   render() {
@@ -112,14 +116,15 @@ class YNewsCM {
   select_handler(data) {
     const index = data.area.code === 3 ? 0 : data.code;
     const video = this.videos[index];
-    const container = jQuery('.video');
+    const container = jQuery('#video');
     const player = jQuery('#player');
     jQuery('#title').text(video.title);
     player.tubeplayer("destroy");
+    const container_width = container.parent().width() - 32;
     player.tubeplayer({
       initialVideo: video.id,
-      width: container.parent().width(),
-      height: container.parent().width() * 9 / 16,
+      width: container_width,
+      height: container_width * 9 / 16,
       color: "white",
       theme: "light",
       autoPlay: true,

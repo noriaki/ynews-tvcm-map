@@ -2,6 +2,10 @@ h1 {
   font-family: 'Noto Sans Japanese', serif;
 }
 
-.video {
+#video {
   display: none;
+}
+
+#video .close {
+  padding: 10px 15px;
 }
