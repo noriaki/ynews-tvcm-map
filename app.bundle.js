@@ -73,7 +73,6 @@ var YNewsCM = function () {
         fontSize: 12,
         fontColor: "areaColor",
         fontShadowColor: "black",
-        protocol: window.location.protocol == "https:" ? "https" : "http",
         onSelect: this.select_handler.bind(this)
       };
     }
@@ -92,6 +91,7 @@ var YNewsCM = function () {
         color: "white",
         theme: "light",
         autoPlay: true,
+        protocol: window.location.protocol == "https:" ? "https" : "http",
         modestbranding: false
       });
     }
