@@ -2,6 +2,14 @@ import gulp       from 'gulp';
 import browserify from 'browserify';
 import source     from 'vinyl-source-stream';
 import webserver  from 'gulp-webserver';
+import eslint     from 'gulp-eslint';
+
+gulp.task('lint', () => {
+  return gulp.src('./src/app.jsx')
+    .pipe(eslint({ useEslintrc: true }))
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
 
 gulp.task('build', (done) => {
   return browserify('./src/app.jsx')
@@ -14,7 +22,7 @@ gulp.task('build', (done) => {
 const copy_targets = ['./src/index.html', './src/style.css'];
 
 gulp.task('watch', () => {
-  gulp.watch('./src/*.jsx', ['build']);
+  gulp.watch('./src/*.jsx', ['lint', 'build']);
   gulp.watch(copy_targets, ['copy']);
 });
 
@@ -31,4 +39,4 @@ gulp.task('webserver', function() {
     }));
 });
 
-gulp.task('default', ['copy', 'build', 'watch', 'webserver']);
+gulp.task('default', ['copy', 'lint', 'build', 'watch', 'webserver']);
